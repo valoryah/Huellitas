@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Buscar Mascotas</title>
+        <link rel="stylesheet" href="../assets/css/buscar.css">
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <h2>Buscar mascotas</h2>
+        </header>
+        <div class="busqueda">
+            <input
+            type="text" placeholder="Buscar por nombre...">
+            <select>
+                <option>Todas las especies</option>
+                <option>Perro</option>
+                <option>Gato</option>
+            </select>
+            <select>
+                <option>Cualquier edad</option>
+                <option>Cachorro</option>
+                <option>Joven</option>
+                <option>Adulto</option>
+            </select>
+            <select>
+                <option>Todas las ciudades</option>
+                <option>Ciudad de México</option>
+                <option>Puebla</option>
+                <option>Guadalajara</option>
+            </select>
+            <button> Buscar </button>
+        </div>
+        <section class="resultado">
+            <div class="card">
+                <img src="../assets/img/mascotas/perro1.jpg">
+                <h3>Max</h3>
+                <p>Labrador • 2 años</p>
+                <p>📍 Ciudad de México</p>
+                <div class="acciones">
+                    <button>❤️ Favorito</button>
+                    <button>Ver más</button>
+                </div>
+            </div>
+        </section>
+        <nav>
+            <a href="feed.html"><i class="fa-solid fa-house"></i></a>
+            <a href="buscar.html"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a href="publicar.html"><i class="fa-solid fa-circle-plus"></i></a>
+            <a href="seguimiento.html"><i class="fa-solid fa-clipboard-list"></i></a>
+            <a href="perfil.html"><i class="fa-solid fa-user"></i></a>
+        </nav>
+        <script src="../assets/js/buscar.js"></script>
+    </body>
+    </html>

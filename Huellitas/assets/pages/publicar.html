@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Publicar Mascota</title>
+        <link rel="stylesheet"
+        href="Huellitas/assets/css/publicar.css">
+        <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    </head>
+    <body>
+        <header>
+            <a href="feed.html">
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h2>Publicar Mascota</h2>
+        </header>
+        <div class="contenedor">
+            <div class="foto">
+                <i class="fa-solid fa-camera"></i>
+                <p>Agregar fotografía</p>
+                <input type="file">
+            </div>
+            <input
+            type="text" placeholder="Nombre de la mascota">
+            <select>
+                <option>Especie</option>
+                <option>Perro</option>
+                <option>Gato</option>
+            </select>
+            <input
+            type="text" placeholder="Raza">
+            <input
+            type="number"
+            placeholder="Edad">
+            <div class="sexo">
+                <label>
+                    <input
+                    type="radio"
+                    name="sexo">
+                </label>
+                <label>
+                    <input
+                    type="radio"
+                    name="sexo">
+                </label>
+            </div>
+            <select>
+                <option>Tamaño</option>
+                <option>Pequeño</option>
+                <option>Mediano</option>
+                <option>Grande</option>
+            </select>
+            <input
+            type="text"
+            placeholder="Ciudad">
+            <textarea
+            placeholder="Descripción"></textarea>
+            <button> Publicar Mascota </button>
+        </div>
+        <script src="Huellitas/assets/js/publicar.js"></script>
+    </body>
+</html>
