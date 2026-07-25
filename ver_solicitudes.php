@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo publicadores pueden entrar aquí
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
     header("Location: dashboard.php");
     exit();
@@ -11,7 +10,6 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
 $publicador_id = $_SESSION['usuario_id'];
 $mensaje = "";
 
-// Si el publicador presiona Aceptar o Rechazar
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $solicitud_id = $_POST['solicitud_id'];
     $nuevo_estado = $_POST['estado'];
@@ -26,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Buscar las solicitudes de las mascotas de este publicador
 $sql = "SELECT s.id AS solicitud_id, s.estado, s.fecha_solicitud, m.nombre AS mascota_nombre, m.foto, u.nombre AS adoptante_nombre, u.correo 
         FROM solicitudes s 
         INNER JOIN mascotas m ON s.mascota_id = m.id 
@@ -82,7 +79,6 @@ $resultado = $conn->query($sql);
                 echo "<p>📧 Correo de contacto: " . $row['correo'] . "</p>";
                 echo "<p>📅 Fecha: " . date("d/m/Y", strtotime($row['fecha_solicitud'])) . "</p>";
                 
-                // Si la solicitud está pendiente, mostramos el formulario para responder
                 if ($row['estado'] == 'pendiente') {
                     echo "<div class='formulario-respuesta'>";
                     echo "<p><strong>¿Aceptar solicitud?</strong> Deja tu número para que te contacten:</p>";
@@ -91,7 +87,6 @@ $resultado = $conn->query($sql);
                     echo "<input type='text' name='telefono_contacto' placeholder='Ej. Mi WhatsApp es 5512345678' required>";
                     echo "<div style='display: flex; justify-content: space-between;'>";
                     echo "<button type='submit' name='estado' value='aceptada' class='btn-aceptar'>Aceptar ✅</button>";
-                    // Al rechazar, le quitamos la validación obligatoria del teléfono con formnovalidate
                     echo "<button type='submit' name='estado' value='rechazada' class='btn-rechazar' formnovalidate>Rechazar ❌</button>";
                     echo "</div>";
                     echo "</form>";

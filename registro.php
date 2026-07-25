@@ -2,14 +2,12 @@
 include 'conexion.php'; 
 $mensaje = "";
 
-// Esta parte de PHP se ejecuta solo cuando el usuario presiona el botón "Registrarme"
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre'];
     $correo = $_POST['correo'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Encriptamos la contraseña por seguridad
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
     $rol = $_POST['rol'];
 
-    // Preparamos la orden para guardar en MySQL
     $sql = "INSERT INTO usuarios (nombre, correo, password, rol) VALUES ('$nombre', '$correo', '$password', '$rol')";
     
     if ($conn->query($sql) === TRUE) {
@@ -41,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h1>Crear Cuenta</h1>
     <p>Únete a Huellitas 🐾</p>
     
-    <!-- Aquí mostramos el mensaje de éxito o error -->
     <?php echo $mensaje; ?>
 
     <form action="registro.php" method="POST">

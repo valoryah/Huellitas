@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad Extrema: SOLO Administradores
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'administrador') {
     header("Location: dashboard.php");
     exit();
@@ -10,24 +9,19 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'administrador') {
 
 $mensaje = "";
 
-// 1. Lógica para BLOQUEAR usuario
 if (isset($_GET['bloquear_id'])) {
     $id = $_GET['bloquear_id'];
-    // Evitar que el admin se bloquee a sí mismo
     if ($id != $_SESSION['usuario_id']) {
         $conn->query("UPDATE usuarios SET estado_cuenta = 'bloqueado' WHERE id = '$id'");
         $mensaje = "<p style='color: #856404; background-color: #fff3cd; padding: 10px; border-radius: 5px;'>Usuario suspendido. Ya no podrá iniciar sesión. 🚫</p>";
     }
 }
-
-// 2. Lógica para ACTIVAR usuario
 if (isset($_GET['activar_id'])) {
     $id = $_GET['activar_id'];
     $conn->query("UPDATE usuarios SET estado_cuenta = 'activo' WHERE id = '$id'");
     $mensaje = "<p style='color: #155724; background-color: #d4edda; padding: 10px; border-radius: 5px;'>Usuario reactivado exitosamente. ✅</p>";
 }
 
-// 3. Lógica para ELIMINAR usuario (Y todo su contenido por efecto cascada de la base de datos)
 if (isset($_GET['eliminar_id'])) {
     $id = $_GET['eliminar_id'];
     if ($id != $_SESSION['usuario_id']) {
@@ -36,7 +30,7 @@ if (isset($_GET['eliminar_id'])) {
     }
 }
 
-// Buscar a todos los usuarios
+
 $sql = "SELECT * FROM usuarios ORDER BY fecha_registro DESC";
 $resultado = $conn->query($sql);
 ?>
@@ -88,7 +82,6 @@ $resultado = $conn->query($sql);
                 echo "<p>📅 Registrado: " . date("d/m/Y", strtotime($row['fecha_registro'])) . "</p>";
                 echo "<p>📌 Estado: <strong>" . ucfirst($row['estado_cuenta']) . "</strong></p>";
                 
-                // No mostramos botones si es el propio administrador
                 if ($row['id'] != $_SESSION['usuario_id']) {
                     echo "<div class='fila-botones'>";
                     

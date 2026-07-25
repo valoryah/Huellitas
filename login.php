@@ -1,7 +1,6 @@
 <?php
 include 'conexion.php';
 
-// Verificamos que la conexión exista antes de hacer nada
 if (!$conn) {
     die("Error crítico: Conexión no establecida.");
 }

@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
     header("Location: dashboard.php");
     exit();
@@ -11,7 +10,6 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
 $publicador_id = $_SESSION['usuario_id'];
 $mensaje = "";
 
-// 1. Si enviaron el formulario para actualizar los datos
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mascota_id = $_POST['mascota_id'];
     $nombre = $_POST['nombre'];
@@ -30,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// 2. Cargar los datos actuales de la mascota para rellenar el formulario
 $mascota = null;
 if (isset($_GET['id'])) {
     $mascota_id = $_GET['id'];

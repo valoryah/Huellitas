@@ -1,12 +1,12 @@
 <?php
 session_start();
-// Si no han iniciado sesión, los regresamos
+
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: index.php");
     exit();
 }
 
-$rol = $_SESSION['rol']; // Guardamos el rol en una variable más corta
+$rol = $_SESSION['rol']; 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,7 +20,6 @@ $rol = $_SESSION['rol']; // Guardamos el rol en una variable más corta
         h1 { color: #ff6b6b; font-size: 24px; margin-bottom: 5px;}
         .rol-tag { background-color: #eee; padding: 5px 10px; border-radius: 15px; font-size: 14px; color: #555; display: inline-block; margin-bottom: 20px;}
         
-        /* Estilos para los botones del menú */
         .menu-opciones { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
         .btn-menu { background-color: #f8f9fa; border: 2px solid #ff6b6b; color: #ff6b6b; padding: 15px; text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 16px; transition: 0.3s; }
         .btn-menu:hover { background-color: #ff6b6b; color: white; }
@@ -36,18 +35,15 @@ $rol = $_SESSION['rol']; // Guardamos el rol en una variable más corta
     
     <div class="menu-opciones">
         <?php if ($rol == 'adoptante'): ?>
-            <!-- Menú exclusivo para Adoptantes -->
             <a href="buscar_mascotas.php" class="btn-menu">🔍 Buscar Mascotas</a>
             <a href="mis_solicitudes.php" class="btn-menu">📄 Mis Solicitudes de Adopción</a>
             
         <?php elseif ($rol == 'publicador'): ?>
-            <!-- Menú exclusivo para Publicadores -->
             <a href="publicar_mascota.php" class="btn-menu">➕ Publicar Mascota</a>
             <a href="mis_publicaciones.php" class="btn-menu">📋 Mis Publicaciones</a>
             <a href="ver_solicitudes.php" class="btn-menu">🔔 Ver Solicitudes Recibidas</a>
             
         <?php elseif ($rol == 'administrador'): ?>
-            <!-- Menú exclusivo para Administradores -->
             <a href="gestionar_usuarios.php" class="btn-menu">👥 Gestionar Usuarios</a>
             <a href="estadisticas.php" class="btn-menu">📊 Ver Estadísticas</a>
         <?php endif; ?>

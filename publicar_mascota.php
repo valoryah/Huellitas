@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
     header("Location: dashboard.php");
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
 
 $mensaje = "";
 
-// Si presionan publicar
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $publicador_id = $_SESSION['usuario_id'];
     $nombre = $_POST['nombre'];
@@ -20,20 +18,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ubicacion = $_POST['ubicacion'];
     $descripcion = $_POST['descripcion'];
     
-    // 1. Manejo de la Fotografía
-    $ruta_foto = ""; // Por defecto vacía
-    // Verificamos si subieron un archivo y no hay errores
+    $ruta_foto = ""; 
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] == 0) {
         $carpeta_destino = "uploads/";
-        // Le ponemos un número de tiempo al nombre para que no se repita si suben dos fotos con el mismo nombre
         $nombre_archivo = time() . "_" . basename($_FILES["foto"]["name"]);
         $ruta_foto = $carpeta_destino . $nombre_archivo;
         
-        // Movemos el archivo temporal a nuestra carpeta uploads
         move_uploaded_file($_FILES["foto"]["tmp_name"], $ruta_foto);
     }
 
-    // 2. Guardar en base de datos incluyendo la ruta de la foto
     $sql = "INSERT INTO mascotas (publicador_id, nombre, especie, edad, tamano, ubicacion, descripcion, foto) 
             VALUES ('$publicador_id', '$nombre', '$especie', '$edad', '$tamano', '$ubicacion', '$descripcion', '$ruta_foto')";
     
@@ -71,7 +64,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <?php echo $mensaje; ?>
 
-    <!-- ¡El atributo enctype es obligatorio para enviar archivos! -->
     <form action="publicar_mascota.php" method="POST" enctype="multipart/form-data">
         <input type="text" name="nombre" placeholder="Nombre de la mascota" required>
         
@@ -100,7 +92,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <textarea name="descripcion" placeholder="Cuéntanos un poco sobre su personalidad..." required></textarea>
 
-        <!-- Nuevo campo para subir la imagen -->
         <label class="file-label">Foto del peludito (Obligatorio):</label>
         <input type="file" name="foto" accept="image/*" required>
 

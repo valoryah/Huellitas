@@ -2,13 +2,11 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo adoptantes pueden entrar aquí
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'adoptante') {
     header("Location: dashboard.php");
     exit();
 }
 
-// Lógica para el filtro de especie
 $filtro_especie = isset($_GET['especie']) ? $_GET['especie'] : '';
 $sql = "SELECT * FROM mascotas WHERE estado = 'disponible'";
 
@@ -16,7 +14,7 @@ if ($filtro_especie != '') {
     $sql .= " AND especie = '$filtro_especie'";
 }
 
-$sql .= " ORDER BY fecha_publicacion DESC"; // Mostrar los más recientes primero
+$sql .= " ORDER BY fecha_publicacion DESC"; 
 $resultado = $conn->query($sql);
 ?>
 
@@ -32,8 +30,7 @@ $resultado = $conn->query($sql);
         .filtros { margin-bottom: 20px; }
         select, button { padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; }
         button { background-color: #ff6b6b; color: white; border: none; font-weight: bold; cursor: pointer; }
-        
-        /* Estilos de las tarjetas simulando una app */
+      
         .catalogo { display: flex; flex-direction: column; gap: 20px; align-items: center; }
         .card-mascota { background-color: white; width: 100%; max-width: 350px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); overflow: hidden; text-align: left; }
         .card-mascota img { width: 100%; height: 250px; object-fit: cover; }
@@ -51,7 +48,6 @@ $resultado = $conn->query($sql);
     <h1>Adopta un Peludito 🐾</h1>
     <p>Encuentra a tu nuevo mejor amigo</p>
 
-    <!-- Barra de Filtros -->
     <div class="filtros">
         <form action="buscar_mascotas.php" method="GET">
             <select name="especie">
@@ -64,12 +60,11 @@ $resultado = $conn->query($sql);
         </form>
     </div>
 
-    <!-- Catálogo de Mascotas -->
+
     <div class="catalogo">
         <?php
         if ($resultado->num_rows > 0) {
             while($mascota = $resultado->fetch_assoc()) {
-                // Verificar si tiene foto, si no, poner una imagen por defecto
                 $imagen = !empty($mascota['foto']) ? $mascota['foto'] : 'https://via.placeholder.com/350x250?text=Sin+Foto';
                 
                 echo "<div class='card-mascota'>";
@@ -80,7 +75,6 @@ $resultado = $conn->query($sql);
                 echo "<p>📍 " . $mascota['ubicacion'] . "</p>";
                 echo "<p><em>" . $mascota['descripcion'] . "</em></p>";
                 
-                // Este botón llevará más adelante a la solicitud
                 echo "<a href='enviar_solicitud.php?id=" . $mascota['id'] . "' class='btn-adoptar'>¡Quiero Adoptarlo! ❤️</a>";
                 echo "</div>";
                 echo "</div>";

@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo adoptantes
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'adoptante') {
     header("Location: dashboard.php");
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'adoptante') {
 
 $adoptante_id = $_SESSION['usuario_id'];
 
-// Buscamos las solicitudes y AHORA incluimos el telefono_contacto de la base de datos
 $sql = "SELECT s.id, s.estado, s.fecha_solicitud, s.telefono_contacto, m.nombre, m.foto 
         FROM solicitudes s 
         INNER JOIN mascotas m ON s.mascota_id = m.id 
@@ -72,10 +70,9 @@ $resultado = $conn->query($sql);
                 
                 $clase_estado = strtolower($row['estado']);
                 echo "<span class='estado " . $clase_estado . "'>Estado: " . ucfirst($row['estado']) . "</span>";
-                echo "</div>"; // Fin de info
-                echo "</div>"; // Fin de card-header
+                echo "</div>"; 
+                echo "</div>"; 
                 
-                // MAGIA: Si la solicitud fue aceptada, mostramos la cajita con el teléfono de contacto
                 if ($row['estado'] == 'aceptada' && !empty($row['telefono_contacto'])) {
                     echo "<div class='contacto-box'>";
                     echo "<strong>¡Felicidades! 🎉</strong><br>";
@@ -83,7 +80,7 @@ $resultado = $conn->query($sql);
                     echo "</div>";
                 }
                 
-                echo "</div>"; // Fin de card-solicitud
+                echo "</div>"; 
             }
         } else {
             echo "<p>Aún no has enviado ninguna solicitud de adopción.</p>";

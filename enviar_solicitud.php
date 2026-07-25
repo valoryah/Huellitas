@@ -2,26 +2,24 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo adoptantes pueden enviar solicitudes
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'adoptante') {
     header("Location: dashboard.php");
     exit();
 }
 
 $adoptante_id = $_SESSION['usuario_id'];
-// Tomamos el ID de la mascota que viene en la URL
 $mascota_id = isset($_GET['id']) ? $_GET['id'] : 0;
 $mensaje = "";
 
 if ($mascota_id > 0) {
-    // 1. Verificar si ya existe una solicitud de este usuario para esta mascota
+    
     $check_sql = "SELECT * FROM solicitudes WHERE adoptante_id = '$adoptante_id' AND mascota_id = '$mascota_id'";
     $check_result = $conn->query($check_sql);
 
     if ($check_result->num_rows > 0) {
         $mensaje = "<p style='color: #ff9800; font-weight: bold;'>Ya has enviado una solicitud para este peludito anteriormente. 🐾 ¡El refugio la está revisando!</p>";
     } else {
-        // 2. Si no existe, insertamos la nueva solicitud (el estado 'pendiente' se pone solito por nuestra base de datos)
+
         $sql = "INSERT INTO solicitudes (adoptante_id, mascota_id) VALUES ('$adoptante_id', '$mascota_id')";
         
         if ($conn->query($sql) === TRUE) {

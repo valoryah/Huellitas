@@ -2,7 +2,6 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo publicadores
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
     header("Location: dashboard.php");
     exit();
@@ -11,7 +10,7 @@ if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'publicador') {
 $publicador_id = $_SESSION['usuario_id'];
 $mensaje = "";
 
-// 1. Lógica para ELIMINAR la publicación
+
 if (isset($_GET['eliminar_id'])) {
     $eliminar_id = $_GET['eliminar_id'];
     $sql_delete = "DELETE FROM mascotas WHERE id = '$eliminar_id' AND publicador_id = '$publicador_id'";
@@ -22,7 +21,6 @@ if (isset($_GET['eliminar_id'])) {
     }
 }
 
-// 2. Lógica para cambiar el ESTADO (Disponible / Adoptado)
 if (isset($_GET['cambiar_estado']) && isset($_GET['id'])) {
     $mascota_id = $_GET['id'];
     $nuevo_estado = $_GET['cambiar_estado'];
@@ -32,7 +30,6 @@ if (isset($_GET['cambiar_estado']) && isset($_GET['id'])) {
     }
 }
 
-// Buscar todas las mascotas de este usuario
 $sql = "SELECT * FROM mascotas WHERE publicador_id = '$publicador_id' ORDER BY fecha_publicacion DESC";
 $resultado = $conn->query($sql);
 ?>
@@ -60,7 +57,6 @@ $resultado = $conn->query($sql);
         .btn-marcar-adoptado { background-color: #6c757d; color: white; }
         .btn-marcar-disponible { background-color: #28a745; color: white; }
         
-        /* Nuevos botones de Editar y Eliminar */
         .fila-botones { display: flex; gap: 10px; }
         .btn-editar { background-color: #ffc107; color: #333; width: 50%; }
         .btn-eliminar { background-color: #dc3545; color: white; width: 50%; }
@@ -94,10 +90,9 @@ $resultado = $conn->query($sql);
                     echo "<a href='mis_publicaciones.php?cambiar_estado=disponible&id=" . $row['id'] . "' class='btn-accion btn-marcar-disponible'>Volver a poner Disponible 🐾</a>";
                 }
                 
-                // Agregamos los nuevos botones de Editar y Eliminar en una fila
                 echo "<div class='fila-botones'>";
                 echo "<a href='editar_mascota.php?id=" . $row['id'] . "' class='btn-accion btn-editar'>Editar ✏️</a>";
-                // El onclick lanza una alerta de confirmación en JavaScript antes de borrar
+
                 echo "<a href='mis_publicaciones.php?eliminar_id=" . $row['id'] . "' class='btn-accion btn-eliminar' onclick='return confirm(\"¿Estás seguro de que deseas eliminar esta publicación?\")'>Eliminar 🗑️</a>";
                 echo "</div>";
                 

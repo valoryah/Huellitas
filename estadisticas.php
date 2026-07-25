@@ -2,23 +2,22 @@
 session_start();
 include 'conexion.php';
 
-// Seguridad: Solo administradores
 if (!isset($_SESSION['usuario_id']) || $_SESSION['rol'] != 'administrador') {
     header("Location: dashboard.php");
     exit();
 }
 
-// 1. Contar Usuarios
+
 $total_usuarios = $conn->query("SELECT COUNT(*) as total FROM usuarios")->fetch_assoc()['total'];
 $total_adoptantes = $conn->query("SELECT COUNT(*) as total FROM usuarios WHERE rol='adoptante'")->fetch_assoc()['total'];
 $total_publicadores = $conn->query("SELECT COUNT(*) as total FROM usuarios WHERE rol='publicador'")->fetch_assoc()['total'];
 
-// 2. Contar Mascotas
+
 $total_mascotas = $conn->query("SELECT COUNT(*) as total FROM mascotas")->fetch_assoc()['total'];
 $mascotas_disponibles = $conn->query("SELECT COUNT(*) as total FROM mascotas WHERE estado='disponible'")->fetch_assoc()['total'];
 $mascotas_adoptadas = $conn->query("SELECT COUNT(*) as total FROM mascotas WHERE estado='adoptado'")->fetch_assoc()['total'];
 
-// 3. Contar Solicitudes
+
 $total_solicitudes = $conn->query("SELECT COUNT(*) as total FROM solicitudes")->fetch_assoc()['total'];
 $solicitudes_aceptadas = $conn->query("SELECT COUNT(*) as total FROM solicitudes WHERE estado='aceptada'")->fetch_assoc()['total'];
 ?>
@@ -55,7 +54,6 @@ $solicitudes_aceptadas = $conn->query("SELECT COUNT(*) as total FROM solicitudes
     <p>Resumen en tiempo real de Huellitas</p>
 
     <div class="grid-estadisticas">
-        <!-- Usuarios -->
         <div class="seccion-titulo">Comunidad</div>
         <div class="card-stat card-full">
             <h2><?php echo $total_usuarios; ?></h2>
@@ -70,7 +68,6 @@ $solicitudes_aceptadas = $conn->query("SELECT COUNT(*) as total FROM solicitudes
             <span>Refugios 🏠</span>
         </div>
 
-        <!-- Mascotas -->
         <div class="seccion-titulo">Peluditos</div>
         <div class="card-stat">
             <h2 style="color: #28a745;"><?php echo $mascotas_disponibles; ?></h2>
@@ -81,7 +78,6 @@ $solicitudes_aceptadas = $conn->query("SELECT COUNT(*) as total FROM solicitudes
             <span>Adoptados ❤️</span>
         </div>
 
-        <!-- Adopciones (Impacto) -->
         <div class="seccion-titulo">Impacto</div>
         <div class="card-stat card-full" style="background-color: #ffeb3b; color: #333;">
             <h2 style="color: #d32f2f;"><?php echo $solicitudes_aceptadas; ?></h2>
